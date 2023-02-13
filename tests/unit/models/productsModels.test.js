@@ -4,7 +4,6 @@ const { productsModels } = require('../../../src/models/index');
 
 const connection = require('../../../src/models/connection');
 const { products } = require('./mocks/productsModels.mock');
-const { func } = require('joi');
 
 
 describe('Testes de unidade do model de produtos', function () {
