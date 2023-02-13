@@ -8,6 +8,15 @@ const findAll = async () => {
   return camelize(result);
 };
 
+const findById = async (productId) => {
+  const [[product]] = await connection.execute(
+    'SELECT * FROM StoreManager.products WHERE id = ?',
+    [productId],
+  );
+  return camelize(product);
+};
+
 module.exports = {
   findAll,
+  findById,
 };
