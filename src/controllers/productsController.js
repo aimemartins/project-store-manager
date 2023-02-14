@@ -1,4 +1,5 @@
 const { productsServices } = require('../services/index');
+const errorMap = require('../utils/errorMap');
 
 const listProducts = async (_req, res) => {
   const { message } = await productsServices.findAll();
@@ -12,7 +13,7 @@ const getProduct = async (req, res) => {
   const { id } = req.params;
   const { type, message } = await productsServices.findById(id);
 
-  if (type) return res.status(404).json({ message });
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
 
   res.status(200).json(message);
 };
@@ -22,9 +23,7 @@ const createProduct = async (req, res) => {
   const { name } = req.body;
   const { type, message } = await productsServices.createProduct(name);
 
-  if (type === 'INVALID_NAME') return res.status(400).json({ message });
-
-  if (type === 'INVALID_NAME_LENGTH') return res.status(422).json({ message });
+  if (type) return res.status(errorMap.mapError(type)).json({ message });
 
   res.status(201).json(message);
 };
