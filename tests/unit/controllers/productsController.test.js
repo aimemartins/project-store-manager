@@ -7,10 +7,10 @@ chai.use(sinonChai);
 
 const { productsServices } = require('../../../src/services/index');
 const { productsController } = require('../../../src/controllers/index');
-const { productListMock } = require('./mocks/productsController.mock');
+const { productListMock, productMock } = require('./mocks/productsController.mock');
 
-describe('Teste de unidade do productController', function () {
-  describe('Listando os produtos', function () {
+describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', function () {
+  describe('LISTANDO OS PRODUTOS', function () {
     it('Deve retornar o status 200 e a lista ', async function () {
       //arange
       const res = {};
@@ -28,6 +28,29 @@ describe('Teste de unidade do productController', function () {
       //assert
       expect(res.status).to.have.been.calledWith(200);
       expect(res.json).to.have.been.calledWith(productListMock);
+    })
+  })
+
+  describe('BUSCANDO UM PRODUTO COM BASE EM SEU ID', function () {
+    it('Deve retornar o status 201 e os dados do produto ', async function () {
+      //arange
+      const res = {};
+      const req = {
+        body: productMock
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsServices, "createProduct")
+        .resolves({ type: null, message: productMock });
+      //act
+
+      await productsController.createProduct(req, res);
+
+      //assert
+      expect(res.status).to.have.been.calledWith(201);
+      expect(res.json).to.have.been.calledWith(productMock);
     })
   })
   afterEach(function () {

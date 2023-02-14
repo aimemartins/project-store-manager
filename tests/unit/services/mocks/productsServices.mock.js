@@ -5,6 +5,10 @@ const productSearchById = {
   name: validName
 }
 
+const invalidName = 'a';
+
 module.exports = {
   productSearchById,
+  validName,
+  invalidName,
 }
