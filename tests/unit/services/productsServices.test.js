@@ -41,6 +41,7 @@ describe('Verificando Service para produto', function () {
 
       // act
       const result = await productsServices.findById(1);
+      // console.log(result)
 
       // assert
       expect(result.type).to.equal('PRODUCT_NOT_FOUND');
@@ -50,18 +51,20 @@ describe('Verificando Service para produto', function () {
     it('retorna o produto caso ID seja existente', async function () {
       // arrange
       sinon.stub(productsModels, 'findById').resolves(productSearchById);
-      console.log(productSearchById);
+      //console.log(productSearchById);
 
       // act
       const result = await productsServices.findById(1);
-      console.log(result);
+      //console.log(result);
       // assert
       expect(result.type).to.equal(null);
       expect(result.message).to.deep.equal(productSearchById);
     })
 
-    afterEach(function () {
-      sinon.restore();
-    });
   })
+
+  afterEach(function () {
+    sinon.restore();
+  });
+
 });
