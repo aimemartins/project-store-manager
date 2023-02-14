@@ -49,14 +49,15 @@ describe('Verificando Service para produto', function () {
 
     it('retorna o produto caso ID seja existente', async function () {
       // arrange
-      sinon.stub(productsModels, 'findById').resolves(productSearchById[0]);
+      sinon.stub(productsModels, 'findById').resolves(productSearchById);
+      console.log(productSearchById);
 
       // act
       const result = await productsServices.findById(1);
-
+      console.log(result);
       // assert
       expect(result.type).to.equal(null);
-      expect(result.message).to.deep.equal(productSearchById[0]);
+      expect(result.message).to.deep.equal(productSearchById);
     })
 
     afterEach(function () {
