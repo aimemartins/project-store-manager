@@ -22,7 +22,9 @@ const createProduct = async (req, res) => {
   const { name } = req.body;
   const { type, message } = await productsServices.createProduct(name);
 
-  if (type) return res.status(400).json({ message });
+  if (type === 'INVALID_NAME') return res.status(400).json({ message });
+
+  if (type === 'INVALID_NAME_LENGTH') return res.status(422).json({ message });
 
   res.status(201).json(message);
 };
