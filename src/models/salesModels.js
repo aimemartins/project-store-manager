@@ -22,7 +22,6 @@ const findById = async (productId) => {
       ORDER BY sp.sale_id, sp.product_id`,
     [productId],
   );
-  console.log(sales[0]);
   return camelize(sales);
 };
 
