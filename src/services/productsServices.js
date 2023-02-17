@@ -47,6 +47,13 @@ const updateById = async (name, id) => {
   return { type: null, message: updateName };
 };
 
+const deleteById = async (id) => {
+  const product = await productsModels.findById(id);
+  if (!product) return { type: 404, message: 'Product not found' };
+  await productsModels.deleteById(id);
+  return { type: null, message: '' };
+};
+
 // const updateById = async (id, name) => {
 //   const product = await productModel.productById(id);
 //   if (!product) return { type: 404, message: 'Product not found' };
@@ -60,4 +67,5 @@ module.exports = {
   findById,
   createProduct,
   updateById,
+  deleteById,
 };
