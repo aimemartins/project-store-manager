@@ -6,6 +6,7 @@ const findAll = async () => {
   const [result] = await connection.execute(
     'SELECT * FROM StoreManager.products',
   );
+  // console.log(result[1]);
   return camelize(result);
 };
 
@@ -14,6 +15,7 @@ const findById = async (productId) => {
     'SELECT * FROM StoreManager.products WHERE id = ?',
     [productId],
   );
+  // console.log(product);
   return camelize(product);
 };
 
