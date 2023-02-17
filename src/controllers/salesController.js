@@ -18,17 +18,17 @@ const getSale = async (req, res) => {
   res.status(200).json(message);
 };
 
-const createSale = async (req, res) => {
-  const array = req.body; // array de objetos;
-  const { type, message } = await salesServices.insertSales(array);
+// const createSale = async (req, res) => {
+//   const array = req.body; // array de objetos;
+//   const { type, message } = await salesServices.insertSales(array);
 
-  if (type) return res.status(errorMap.mapError(type)).json({ message });
+//   if (type) return res.status(errorMap.mapError(type)).json({ message });
 
-  res.status(201).json(message);
-};
+//   res.status(201).json(message);
+// };
 
 module.exports = {
   listProducts,
   getSale,
-  createSale,
+  // createSale,
 };

@@ -26,28 +26,28 @@ const findById = async (productId) => {
   return camelize(sales);
 };
 
-const createSale = async () => {
-  const [{ insertId }] = await connection.execute(
-    'INSERT INTO StoreManager.sales () VALUES ()',
-  );
+// const createSale = async () => {
+//   const [{ insertId }] = await connection.execute(
+//     'INSERT INTO StoreManager.sales () VALUES ()',
+//   );
   
-  return insertId;
-};
+//   return insertId;
+// };
 
-const insertSale = async (saleId, { productId, quantity }) => {
-  const [{ insertId }] = await connection.execute(
-  'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-  [saleId, productId, quantity],
-  );
+// const insertSale = async (saleId, { productId, quantity }) => {
+//   const [{ insertId }] = await connection.execute(
+//   'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+//   [saleId, productId, quantity],
+//   );
   
-  return insertId;
-};
+//   return insertId;
+// };
 
 module.exports = {
   findAll,
   findById,
-  createSale,
-  insertSale,
+  // createSale,
+  // insertSale,
 };
 
 // const columns3 = Object.keys(snakeize(quantity)).join(', ');
