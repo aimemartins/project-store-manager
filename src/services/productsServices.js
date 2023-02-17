@@ -31,8 +31,33 @@ const createProduct = async (name) => {
   return { type: null, message: result };
 };
 
+const updateById = async (name, id) => {
+  // if(id === Number)
+  const error = schema.validateNewProduct(name);
+  if (error.type) return error;
+
+  const returnId = await productsModels.findById(id);
+  if (!returnId) return { type: 'INVALID_VALUE', message: 'Product not found' };
+
+  const updateName = await productsModels.updateById(name, id);
+  // const result = {
+  //   id: returnId,
+  //   name: updateName,
+  // };
+  return { type: null, message: updateName };
+};
+
+// const updateById = async (id, name) => {
+//   const product = await productModel.productById(id);
+//   if (!product) return { type: 404, message: 'Product not found' };
+
+//   const result = await productModel.updateById(id, name);
+//   return { type: null, message: result };
+// };
+
 module.exports = {
   findAll,
   findById,
   createProduct,
+  updateById,
 };
