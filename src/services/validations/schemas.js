@@ -7,7 +7,7 @@ const addProductSchema = Joi.object({
 });
 
 const addSaleSchema = Joi.object({
-  productId: Joi.number().strict().integer().required(),
+  productId: Joi.number().required(),
   quantity: Joi.number().strict().integer().min(1)
     .required(),
 });

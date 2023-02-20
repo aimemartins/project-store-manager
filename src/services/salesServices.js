@@ -17,29 +17,43 @@ const findById = async (saleId) => {
   return { type: null, message: sale };
 };
 
-// const insertSales = async (itemsSold) => {
-//   // validações
-//   const errors = itemsSold.map((item) => schema.validateSale(item));
-//   const Error = errors.find((error) => error.type);
-//   if (Error) {
-//     return Error;
-//   }
-//   // checar se existe já existe o id no banco de dados
+// verifica se tem o productId no banco de dados - req 6
+const isThereProductId = async (array) => {
+  const map = array.map(({ productId }) => salesModels.findProductId(productId));
 
-//   // inserção ao banco de dados
-//   const createId = await salesModels.createSale();
-//   const addSales = itemsSold.map((item) => salesModels.insertSale(createId, item));
-//   const promisseAddSales = await Promise.all(addSales);
+  const productIdCaptured = await Promise.all(map);
 
-//   const result = {
-//     id: createId,
-//     itemsSold: promisseAddSales,
-//   };
-//   return { type: null, message: result };
-// };
+  return productIdCaptured.some((ele) => !ele.length);
+};
+// req 6
+const insertSales = async (itemsSold) => {
+  // validações
+  const errors = itemsSold.map((item) => schema.validateSale(item));
+  const Error = errors.find((error) => error.type);
+  if (Error) {
+    if (Error.message.includes('than')) {
+      return { type: 422, message: Error.message };
+    }
+    return { type: 400, message: Error.message };
+  }
+
+  // checar se existe já existe o id no banco de dados
+  if (await isThereProductId(itemsSold)) return { type: 404, message: 'Product not found' };
+
+  // inserção ao banco de dados
+  const { insertId } = await salesModels.createSale();
+  const addSales = itemsSold.map((item) => salesModels.insertSale(insertId, item));
+  const promise = await Promise.all(addSales);
+
+  const result = {
+    id: insertId,
+    itemsSold: promise,
+  };
+  return { type: null, message: result };
+};
 
 module.exports = {
   findAll,
   findById,
-  // insertSales,
+  insertSales,
 };

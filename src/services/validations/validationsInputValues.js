@@ -29,7 +29,7 @@ const validateNewProduct = (name) => {
 const validateSale = (sales) => {
   const { error } = addSaleSchema.validate(sales);
 
-  if (error) return { type: error.type, message: error.message };
+  if (error) return { type: 'ERROR_VALIDATION', message: error.message };
   return { type: null, message: '' };
 };
 

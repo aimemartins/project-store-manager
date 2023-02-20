@@ -26,28 +26,42 @@ const findById = async (productId) => {
   return camelize(sales);
 };
 
-// const createSale = async () => {
-//   const [{ insertId }] = await connection.execute(
-//     'INSERT INTO StoreManager.sales () VALUES ()',
-//   );
-  
-//   return insertId;
-// };
+// função é usada para achar id no requisito 6
 
-// const insertSale = async (saleId, { productId, quantity }) => {
-//   const [{ insertId }] = await connection.execute(
-//   'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
-//   [saleId, productId, quantity],
-//   );
+const findProductId = async (id) => {
+  const [result] = await connection.execute(
+    'SELECT * FROM StoreManager.sales WHERE id = ?',
+    [id],
+  );
+  return result;
+};
+
+// req 6
+const createSale = async () => {
+  const [{ insertId }] = await connection.execute(
+    'INSERT INTO StoreManager.sales (date) VALUES (default)',
+     [],
+);
   
-//   return insertId;
-// };
+  return { insertId };
+};
+
+// req 6
+const insertSale = async (saleId, { productId, quantity }) => {
+   await connection.execute(
+  'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
+  [saleId, productId, quantity],
+  );
+  
+  return { productId, quantity };
+};
 
 module.exports = {
   findAll,
   findById,
-  // createSale,
-  // insertSale,
+  findProductId,
+  createSale,
+  insertSale,
 };
 
 // const columns3 = Object.keys(snakeize(quantity)).join(', ');
