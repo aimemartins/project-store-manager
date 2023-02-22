@@ -2,6 +2,7 @@ const camelize = require('camelize');
 // const snakeize = require('snakeize');
 const connection = require('./connection');
 
+// Requisito 8 - (Listar todas as vendas)
 const findAll = async () => {
   const [result] = await connection.execute(
     `SELECT sp.sale_id, s.date, sp.product_id, sp.quantity 
@@ -13,6 +14,7 @@ const findAll = async () => {
   return camelize(result);
 };
 
+// Requisito 8 - (exibir uma venda de acordo com um id)
 const findById = async (productId) => {
   const [sales] = await connection.execute(
     `SELECT s.date, sp.product_id, sp.quantity 
@@ -26,8 +28,7 @@ const findById = async (productId) => {
   return camelize(sales);
 };
 
-// função é usada para achar id no requisito 6
-
+// Requisito 6 - Parte 1 (função para saber se já existe saleId)
 const findProductId = async (id) => {
   const [result] = await connection.execute(
     'SELECT * FROM StoreManager.sales WHERE id = ?',
@@ -36,7 +37,7 @@ const findProductId = async (id) => {
   return result;
 };
 
-// req 6
+// Requisito 6 - Parte 2 (função para criar um saleId)
 const createSale = async () => {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.sales (date) VALUES (default)',
@@ -46,7 +47,7 @@ const createSale = async () => {
   return { insertId };
 };
 
-// req 6
+// Requisito 6 - Parte 3 (função para inserir produtos e quantidades em um saleId)
 const insertSale = async (saleId, { productId, quantity }) => {
    await connection.execute(
   'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',

@@ -1,11 +1,13 @@
 const { salesModels } = require('../models/index');
 const schema = require('./validations/validationsInputValues');
 
+// Requisito 8 - (Listar todas as vendas)
 const findAll = async () => {
   const sales = await salesModels.findAll();
   return { type: null, message: sales };
 };
 
+// Requisito 8 - (exibir uma venda de acordo com um id)
 const findById = async (saleId) => {
   const error = schema.validateId(saleId);
   if (error.type) return error;
@@ -17,15 +19,16 @@ const findById = async (saleId) => {
   return { type: null, message: sale };
 };
 
-// verifica se tem o productId no banco de dados - req 6
+// Requisito 6 - Parte 1 (função para validar se productId existe )
 const isThereProductId = async (array) => {
   const map = array.map(({ productId }) => salesModels.findProductId(productId));
 
   const productIdCaptured = await Promise.all(map);
-
+  // .some retorna true se pelo menos um elemento do array não existe no banco de dados
   return productIdCaptured.some((ele) => !ele.length);
 };
-// req 6
+
+// Requisito 6 - Parte 2 (SE productId existe, crio o saleId e dps cadastro os produtos e as quantidades)
 const insertSales = async (itemsSold) => {
   // validações
   const errors = itemsSold.map((item) => schema.validateSale(item));
