@@ -41,9 +41,10 @@ const findProductId = async (id) => {
 const createSale = async () => {
   const [{ insertId }] = await connection.execute(
     'INSERT INTO StoreManager.sales (date) VALUES (default)',
-     [],
-);
-  
+    [],
+    );
+    console.log(insertId);
+    
   return { insertId };
 };
 

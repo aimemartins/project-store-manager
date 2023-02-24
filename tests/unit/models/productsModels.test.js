@@ -6,7 +6,7 @@ const connection = require('../../../src/models/connection');
 const { products, newProduct } = require('./mocks/productsModels.mock');
 
 
-describe('[ CAMADA MODEL ] - Testes de unidade do Model de produtos', function () {
+describe('[ CAMADA MODEL - PRODUCTS ] - Testes de unidade do Model de produtos', function () {
   it('Recuperando a lista de produtos', async function () {
     // arrange
     sinon.stub(connection, 'execute').resolves([products]);
