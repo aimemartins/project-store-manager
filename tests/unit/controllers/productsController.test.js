@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { productsServices } = require('../../../src/services/index');
 const { productsController } = require('../../../src/controllers/index');
-const { productListMock, productMock } = require('./mocks/productsController.mock');
+const { productListMock, productMock, bodyRequest } = require('./mocks/productsController.mock');
 
 describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', function () {
   describe('LISTANDO OS PRODUTOS', function () {
@@ -36,13 +36,36 @@ describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', functio
       //arange
       const res = {};
       const req = {
-        body: productMock
+        params: { id: 1 }
       };
 
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon
-        .stub(productsServices, "createProduct")
+        .stub(productsServices, 'findById')
+        .resolves({ type: null, message: productMock });
+      //act
+
+      await productsController.getProduct(req, res);
+
+      //assert
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(productMock);
+    })
+  })
+
+  describe('CADASTRANDO PRODUTOS', function () {
+    it('Deve retornar o status 201 e os dados do id do produto', async function () {
+      //arange
+      const res = {};
+      const req = {
+        body: bodyRequest
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsServices, 'createProduct')
         .resolves({ type: null, message: productMock });
       //act
 
@@ -53,6 +76,7 @@ describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', functio
       expect(res.json).to.have.been.calledWith(productMock);
     })
   })
+
   afterEach(function () {
     sinon.restore();
   })
