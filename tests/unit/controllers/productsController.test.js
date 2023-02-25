@@ -7,7 +7,7 @@ chai.use(sinonChai);
 
 const { productsServices } = require('../../../src/services/index');
 const { productsController } = require('../../../src/controllers/index');
-const { productListMock, productMock, bodyRequest } = require('./mocks/productsController.mock');
+const { productListMock, productMock, bodyRequest, bodyUpdateMock, resultRequestUpdated } = require('./mocks/productsController.mock');
 
 describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', function () {
   describe('LISTANDO OS PRODUTOS', function () {
@@ -76,6 +76,54 @@ describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', functio
       expect(res.json).to.have.been.calledWith(productMock);
     })
   })
+
+  describe('ATUALIZANDO PRODUTOS', function () {
+    it('Deve retornar o status 201 e os dados do id do produto', async function () {
+      //arange
+      const res = {};
+      const req = {
+        params: { id: 1 },
+        body: bodyUpdateMock
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsServices, 'updateById')
+        .resolves({ type: null, message: resultRequestUpdated });
+      //act
+
+      await productsController.updateById(req, res);
+
+      //assert
+      expect(res.status).to.have.been.calledWith(200);
+      expect(res.json).to.have.been.calledWith(resultRequestUpdated);
+    })
+  })
+
+  describe('DELETANDO PRODUTOS', function () {
+    it('Deve retornar o status 204', async function () {
+      //arange
+      const res = {};
+      const req = {
+        params: { id: 1 },
+      };
+
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon
+        .stub(productsServices, 'deleteById')
+        .resolves({ type: null, message: '' });
+      //act
+
+      await productsController.deleteBy(req, res);
+
+      //assert
+      expect(res.status).to.have.been.calledWith(204);
+
+    })
+  })
+
 
   afterEach(function () {
     sinon.restore();
