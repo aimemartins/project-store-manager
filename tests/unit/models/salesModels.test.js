@@ -24,6 +24,17 @@ describe('[ CAMADA MODEL - SALES ] - Testes de unidade do Model de sales', funct
     expect(result).to.be.deep.equal(listSalesMock[0]);
   });
 
+  it('Testando se um saleId já existe no banco de dados', async function () {
+    // arrange
+    sinon.stub(connection, 'execute').resolves([listSalesMock[0]]);
+    // act
+    const result = await salesModels.findProductId(1);
+    // assert
+    expect(result).to.be.deep.equal(listSalesMock[0]);
+  });
+
+
+
   it('Criando uma saleId de uma venda', async function () {
     // arrange
     sinon.stub(connection, 'execute').resolves([{ insertId: 3 }]);
