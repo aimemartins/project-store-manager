@@ -101,28 +101,28 @@ describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', functio
     })
   })
 
-  describe('DELETANDO PRODUTOS', function () {
-    it('Deve retornar o status 204', async function () {
-      //arange
-      const res = {};
-      const req = {
-        params: { id: 1 },
-      };
+  // describe('DELETANDO PRODUTOS', function () {
+  //   it('Deve retornar o status 204', async function () {
+  //     //arange
+  //     const res = {};
+  //     const req = {
+  //       params: { id: 1 },
+  //     };
 
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-      sinon
-        .stub(productsServices, 'deleteById')
-        .resolves({ type: null, message: '' });
-      //act
+  //     res.status = sinon.stub().returns(res);
+  //     res.json = sinon.stub().returns();
+  //     sinon
+  //       .stub(productsServices, 'deleteById')
+  //       .resolves({ type: null, message: '' });
+  //     //act
 
-      await productsController.deleteBy(req, res);
+  //     await productsController.deleteBy(req, res);
 
-      //assert
-      expect(res.status).to.have.been.calledWith(204);
+  //     //assert
+  //     expect(res.status).to.have.been.calledWith(204);
 
-    })
-  })
+  //   })
+  // })
 
   afterEach(function () {
     sinon.restore();

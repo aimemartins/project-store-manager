@@ -43,7 +43,7 @@ const createSale = async () => {
     'INSERT INTO StoreManager.sales (date) VALUES (default)',
     [],
     );
-    console.log(insertId);
+    // console.log(insertId);
     
   return { insertId };
 };
@@ -58,12 +58,18 @@ const insertSale = async (saleId, { productId, quantity }) => {
   return { productId, quantity };
 };
 
+const deleteSale = async (id) => {
+  const [result] = await connection.execute('DELETE FROM StoreManager.sales WHERE id = ?', [id]);
+  return result;
+};
+
 module.exports = {
   findAll,
   findById,
   findProductId,
   createSale,
   insertSale,
+  deleteSale,
 };
 
 // const columns3 = Object.keys(snakeize(quantity)).join(', ');
