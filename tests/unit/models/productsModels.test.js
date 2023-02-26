@@ -3,7 +3,8 @@ const sinon = require('sinon');
 const { productsModels } = require('../../../src/models/index');
 
 const connection = require('../../../src/models/connection');
-const { products, newProduct } = require('./mocks/productsModels.mock');
+const { products, newProduct, updateProduct } = require('./mocks/productsModels.mock');
+const { updateById } = require('../../../src/models/productsModels');
 
 
 describe('[ CAMADA MODEL - PRODUCTS ] - Testes de unidade do Model de produtos', function () {
@@ -32,6 +33,17 @@ describe('[ CAMADA MODEL - PRODUCTS ] - Testes de unidade do Model de produtos',
     const result = await productsModels.insert(newProduct);
     // assert
     expect(result).to.be.deep.equal(9);
+  })
+
+  // TIRAR DÚVIDA SOBRE ESSE TÓPICO ABAIXO:
+
+  it('Atualizando um produto', async function () {
+    // arrange
+    sinon.stub(connection, 'execute').resolves([]);
+    // act
+    const result = await productsModels.updateById(updateProduct.name, updateProduct.id);
+    // assert
+    expect(result).to.be.deep.equal(updateProduct);
   })
 
   this.afterEach(function () {

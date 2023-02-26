@@ -7,8 +7,19 @@ const productSearchById = {
 
 const invalidName = 'a';
 
+const updateIdMock = {
+  name: 'Novo nome'
+}
+
+const updatedMock = {
+  id: 1,
+  name: 'Novo nome'
+}
+
 module.exports = {
   productSearchById,
   validName,
   invalidName,
+  updateIdMock,
+  updatedMock,
 }

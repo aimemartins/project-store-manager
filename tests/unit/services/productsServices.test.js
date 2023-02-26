@@ -3,7 +3,7 @@ const sinon = require('sinon');
 const { productsServices } = require('../../../src/services/index')
 const { productsModels } = require('../../../src/models/index');
 
-const { productSearchById, validName, invalidName } = require('./mocks/productsServices.mock');
+const { productSearchById, validName, invalidName, updateIdMock, updatedMock } = require('./mocks/productsServices.mock');
 
 
 describe('[ CAMADA SERVICE ]- Verificando Service para produto', function () {
@@ -97,6 +97,43 @@ describe('[ CAMADA SERVICE ]- Verificando Service para produto', function () {
       expect(result.type).to.be.equal(null);
       expect(result.message).to.deep.equal(productSearchById);
     });
+  });
+
+  describe('ATUALIZAÇÃO DE PRODUTOS', function () {
+
+    it('retorna um erro caso a requisição não tenha o campo "name"', async function () {
+      // arrange : Não é preciso de um arranjo;
+
+      // act
+      const result = await productsServices.updateById(null);
+
+      // assert
+      expect(result.type).to.be.equal('INVALID_NAME');
+      expect(result.message).to.be.equal('"name" is required');
+    });
+
+    it('retorna um erro ao passar um nome que não tenha pelo menos 5 caracteres', async function () {
+      // arrange : Não é preciso de um arranjo;
+
+      // act
+      const result = await productsServices.updateById(invalidName);
+
+      // assert
+      expect(result.type).to.be.equal('INVALID_NAME_LENGTH');
+      expect(result.message).to.be.equal('"name" length must be at least 5 characters long');
+    });
+
+    // it('retorna o produto atualizado', async function () {
+    //   // arrange
+    //   sinon.stub(productsModels, 'updateById').resolves(updatedMock);
+
+    //   // act
+    //   const result = await productsServices.updateById(1, 'Novo nome');
+
+    //   // assert
+    //   expect(result.type).to.be.equal(null);
+    //   expect(result.message).to.deep.equal(updatedMock);
+    // });
   });
 
 

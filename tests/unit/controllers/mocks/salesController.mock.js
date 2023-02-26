@@ -15,9 +15,6 @@ const bodyRequest = [
   }
 ]
 
-
-
-
 const saleResultMock = {
   "id": 2,
   "itemsSold": [
