@@ -124,7 +124,6 @@ describe('[ CAMADA CONTROLLER ]- Teste de unidade do productController', functio
     })
   })
 
-
   afterEach(function () {
     sinon.restore();
   })
