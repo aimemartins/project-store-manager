@@ -46,6 +46,15 @@ describe('[ CAMADA MODEL - PRODUCTS ] - Testes de unidade do Model de produtos',
     expect(result).to.be.deep.equal(updateProduct);
   })
 
+  it('Deleta um produto a partir do seu id', async function () {
+    // arrange
+    sinon.stub(connection, 'execute').resolves([products[0]]);
+    // act
+    const result = await productsModels.deleteById(1);
+    // assert
+    expect(result).to.be.deep.equal(products[0]);
+  });
+
   this.afterEach(function () {
     sinon.restore();
   })
