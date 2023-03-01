@@ -66,23 +66,19 @@ const updateBySaleId = async (itemsSold) => {
   const errors = itemsSold.map((item) => schema.validateSale(item));
   const Error = errors.find((error) => error.type);
   if (Error) {
-    if (Error.message.includes('than')) {
-      return { type: 422, message: Error.message };
-    }
+    if (Error.message.includes('than')) { return { type: 422, message: Error.message }; }
     return { type: 400, message: Error.message };
-  }
-
-  // checar se existe já existe o ProductId no banco de dados
+  } // checar se existe já existe o ProductId no banco de dados
   if (await isThereProductId(itemsSold)) return { type: 404, message: 'Product not found' };
-
   // checar se já existe um saleId no banco de dados
-  const { insertId } = itemsSold.map((item) => salesModels.findById(item));
-  if (!insertId) return { type: 404, message: 'Sale not found' };
-  
-  const addSales = itemsSold.map((item) => salesModels.updateBySaleId(insertId, item));
+  const findSaleId = itemsSold.map((item) => salesModels.findById(item));
+  const map = await Promise.all(findSaleId);
+  // console.log('LINHA 80', map);
+  if (!map) return { type: 404, message: 'Sale not found' };
+  const addSales = itemsSold.map((item) => salesModels.updateBySaleId(item, findSaleId));
   const promise = await Promise.all(addSales);
   const result = {
-    saleId: insertId,
+    saleId: map,
     itemsUpdated: promise,
   };
   return { type: null, message: result };
