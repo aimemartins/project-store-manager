@@ -63,6 +63,14 @@ const deleteSale = async (id) => {
   return result;
 };
 
+const updateBySaleId = async (saleId, { productId, quantity }) => {
+   await connection.execute(
+    'UPDATE StoreManager.sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?;',
+    [productId, quantity, saleId],
+   );
+  return { productId, quantity };
+};
+
 module.exports = {
   findAll,
   findById,
@@ -70,6 +78,7 @@ module.exports = {
   createSale,
   insertSale,
   deleteSale,
+  updateBySaleId,
 };
 
 // const columns3 = Object.keys(snakeize(quantity)).join(', ');

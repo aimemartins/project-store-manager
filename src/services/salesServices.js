@@ -62,9 +62,36 @@ const deleteSale = async (id) => {
   return { type: null, message: '' };
 };
 
+const updateBySaleId = async (itemsSold) => {
+  const errors = itemsSold.map((item) => schema.validateSale(item));
+  const Error = errors.find((error) => error.type);
+  if (Error) {
+    if (Error.message.includes('than')) {
+      return { type: 422, message: Error.message };
+    }
+    return { type: 400, message: Error.message };
+  }
+
+  // checar se existe já existe o ProductId no banco de dados
+  if (await isThereProductId(itemsSold)) return { type: 404, message: 'Product not found' };
+
+  // checar se já existe um saleId no banco de dados
+  const { insertId } = itemsSold.map((item) => salesModels.findById(item));
+  if (!insertId) return { type: 404, message: 'Sale not found' };
+  
+  const addSales = itemsSold.map((item) => salesModels.updateBySaleId(insertId, item));
+  const promise = await Promise.all(addSales);
+  const result = {
+    saleId: insertId,
+    itemsUpdated: promise,
+  };
+  return { type: null, message: result };
+};
+
 module.exports = {
   findAll,
   findById,
   insertSales,
   deleteSale,
+  updateBySaleId,
 };
