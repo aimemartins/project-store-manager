@@ -49,7 +49,7 @@ const createSale = async () => {
 };
 
 // Requisito 6 - Parte 3 (função para inserir produtos e quantidades em um saleId)
-const insertSale = async (saleId, { productId, quantity }) => {
+const insertSale = async ({ productId, quantity }, saleId) => {
    await connection.execute(
   'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity) VALUES (?, ?, ?)',
   [saleId, productId, quantity],
@@ -64,7 +64,7 @@ const deleteSale = async (id) => {
 };
 
 const updateBySaleId = async ({ productId, quantity }, saleId) => {
-  console.log(productId, quantity, saleId);
+  console.log('MODELS ----->', productId, quantity, saleId);
    await connection.execute(
     'UPDATE StoreManager.sales_products SET product_id = ?, quantity = ? WHERE sale_id = ?;',
     [productId, quantity, saleId],
