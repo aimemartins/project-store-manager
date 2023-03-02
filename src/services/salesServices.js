@@ -45,7 +45,7 @@ const insertSales = async (itemsSold) => {
 
   // inserção ao banco de dados
   const { insertId } = await salesModels.createSale();
-  const addSales = itemsSold.map((item) => salesModels.insertSale(insertId, item));
+  const addSales = itemsSold.map((item) => salesModels.insertSale(item, insertId));
   const promise = await Promise.all(addSales);
 
   const result = {

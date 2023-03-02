@@ -48,7 +48,7 @@ describe('[ CAMADA MODEL - SALES ] - Testes de unidade do Model de sales', funct
     // arrange
     sinon.stub(connection, 'execute').resolves({ productId: 2, quantity: 5 });
     // act
-    const result = await salesModels.insertSale(3, newProdAndQuantMock);
+    const result = await salesModels.insertSale(newProdAndQuantMock, 3);
     // assert
     expect(result).to.be.deep.equal({ productId: 2, quantity: 5 });
   })
